@@ -1,9 +1,9 @@
 import controllers from '../controllers'
 
-export default class BaseRouter {
+export default class RequestController {
   constructor(name) {
 		if (!(name in controllers))
-			throw new Error('BaseRouter: controller does not exist')
+			throw new Error('RequestController: controller does not exist')
 		this.controller = controllers[name]
   }
 

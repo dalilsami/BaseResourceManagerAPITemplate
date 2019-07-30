@@ -5,7 +5,7 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 import MongoInstance from './database/mongo'
-import BaseRouter from './classes/BaseRouter'
+import RequestController from './classes/RequestController'
 import routerMapping from './tools/routerMapping'
 import collections from './database/collections'
 
@@ -22,7 +22,7 @@ Object.entries({}).forEach(([path, router]) =>
 )
 
 collections.forEach(name =>
-  routerMapping(new BaseRouter(name), `/${name}`, app)
+  routerMapping(new RequestController(name), `/${name}`, app)
 )
 
 MongoInstance.waiting.then(() => {

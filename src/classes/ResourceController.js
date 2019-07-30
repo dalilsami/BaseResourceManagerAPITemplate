@@ -4,15 +4,11 @@ import MongoInstance from '../database/mongo'
 import collections from '../database/collections'
 
 export default class ResourceController {
-  constructor(collection) {
-    if (!collection || typeof collection !== 'string')
-      throw new Error('ResourceController: Bad arguments for construction')
-    if (collection in controllers)
-      throw new Error('ResourceController: controller alrealdy added')
-    controllers[collection] = this
-    if (collections.includes(collection))
+  constructor(name) {
+    controllers[name] = this
+    if (collections.includes(name))
       MongoInstance.waiting.then(() =>
-        (this.collection = MongoInstance.client.collection(collection))
+        (this.collection = MongoInstance.client.collection(name))
       )
   }
 
@@ -41,6 +37,12 @@ export default class ResourceController {
   delete = id =>
     this.collection
       .deleteOne({ _id: new ObjectId(id) })
+}
+
+export const createResourceController = name => {
+  if (!name || typeof name !== 'string')
+    throw new Error('ResourceController: Bad argument given for constructor, string required')
+  return controllers[name] || new ResourceController(name)
 }
 
 export const controllers = {}

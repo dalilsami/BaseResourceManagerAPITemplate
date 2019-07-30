@@ -1,6 +1,10 @@
+import { createResourceController, controllers } from '../classes/ResourceController'
 import collections from '../database/collections'
-import ResourceController, { controllers } from '../classes/ResourceController'
 
-collections.forEach(c => new ResourceController(c))
+import './User'
+
+collections.forEach(c => createResourceController(c))
+
+console.log(controllers)
 
 export default controllers
